@@ -5,6 +5,4 @@ one over to the other using the algorithm desribed in the efros et al.
 paper. 
 %}
 
-function imtransfer = texture_transfer(imintensity, imtexture, outsize, patchsize, overlap, tol)
-    
-end
+imtransfer = texture_transfer(imintensity, imtexture, outsize, pa, 4, 0.01);

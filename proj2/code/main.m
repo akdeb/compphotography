@@ -29,10 +29,14 @@ imshow(imoverlap);
 % use cut.m to find a cut in the image and combine both images  
 % use this method to combine two overlapping images
 im2sample = im2single(imread('./../sample/tmt1.jpg'));
-imoverlap = quilt_cut(im2sample, 800, 25, 4, 0.01);
+imoverlap = quilt_cut(im2sample, 400, 25, 5, 0.01);
 figure;
 imshow(imoverlap);
 
 %% 4. Texture Transfer (30 pts)
 % use quilt_cut.m and the texture_transfer algorithm 
-
+imintensity = im2single(imread('./../sample/feynman.tiff'));
+imtexture = im2single(imread('./../sample/feynman.tiff'));
+imtransfer = texture_transfer(imintensity, imtexture, 400, 25, 4, 0.01);
+figure;
+imshow(imtransfer);
