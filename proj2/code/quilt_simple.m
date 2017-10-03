@@ -13,11 +13,9 @@ function imoverlap = quilt_simple(sample, outsize, patchsize, overlap, tol)
    % fixed mask for every new horizontal patch
    M = zeros(patchsize);
    M(1:patchsize, 1:overlap) = ones(patchsize, overlap);
-   % T = zeros(patchsize, patchsize, 3);
    start_idx = patchsize-overlap+1;
    
    for i = 1:num_imoverlap
-       % new_idx = i*patchsize-overlap+1;
        T = imoverlap(1:patchsize, start_idx:start_idx+patchsize-1, 1:3);
        ssd = ssd_patch(sample, M, T);
        imoverlap(1:patchsize, start_idx:start_idx+patchsize-1, 1:3) = choose_sample(patchsize, sample, ssd);
@@ -29,11 +27,9 @@ function imoverlap = quilt_simple(sample, outsize, patchsize, overlap, tol)
    % fixed mask for every new vertical patch
    M = zeros(patchsize);
    M(1:overlap, 1:patchsize) = ones(overlap, patchsize);
-   % T = zeros(patchsize, patchsize, 3);
    start_idx = patchsize-overlap+1;
    
    for i = 1:num_imoverlap
-       % new_idx = i*patchsize-overlap+1;
        T = imoverlap(start_idx:start_idx+patchsize-1, 1:patchsize, 1:3);
        ssd = ssd_patch(sample, M, T);
        imoverlap(start_idx:start_idx+patchsize-1, 1:patchsize, 1:3) = choose_sample(patchsize, sample, ssd);
@@ -46,13 +42,11 @@ function imoverlap = quilt_simple(sample, outsize, patchsize, overlap, tol)
    M = zeros(patchsize);
    M(1:patchsize, 1:overlap) = ones(patchsize, overlap);
    M(1:overlap, 1:patchsize) = ones(overlap, patchsize);
-   % T = zeros(patchsize, patchsize, 3);
    start_row = patchsize-overlap+1;
    
    for i = 1:num_imoverlap
        start_col = patchsize-overlap+1;
        for j = 1:num_imoverlap
-            % new_idx = i*patchsize-overlap+1;
             T = imoverlap(start_row:start_row+patchsize-1, start_col:start_col+patchsize-1, 1:3);
             ssd = ssd_patch(sample, M, T);
             imoverlap(start_row:start_row+patchsize-1, start_col:start_col+patchsize-1, 1:3) = choose_sample(patchsize, sample, ssd);
