@@ -5,12 +5,15 @@ select a patch with low cost so it looks most similar to the overlapping
 patch.
 %}
 
-function impatch = choose_sample(patchsize, sample, ssd)
+function impatch = choose_sample(patchsize, sample, ssd, tol)
     % calculate dimensions of score/cost matrix and find min pixel
     dim = size(sample);
-    minmat = ssd((patchsize+1)/2:dim(1)-(patchsize-1)/2, (patchsize+1)/2:dim(2)-(patchsize-1)/2);
-    [y, x] = find(minmat==min(min(minmat)));
-    
+    cost = ssd((patchsize+1)/2:dim(1)-(patchsize-1)/2, (patchsize+1)/2:dim(2)-(patchsize-1)/2);
+    minc = min(min(cost));
+    minc = max(minc, 20);
+    [y, x] = find(cost<minc*(1+tol));
+    % [y, x] = find(cost==min(min(cost))); %(use it if required)-not wrong
+
     % gives vectors for min pixels
     % select any point from these min points
     rand_idx = randi(size(x,1));
