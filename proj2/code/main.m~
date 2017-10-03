@@ -21,7 +21,7 @@ imshow(imrandom);
 % read image in imsample and call quilt_simple function
 % use only odd positive integers for patchsize for now
 im2sample = im2single(imread('./../sample/tmt1.jpg'));
-imoverlap = quilt_simple(im2sample, 800, 25, 4, 0.01);
+imoverlap = quilt_simple(im2sample, 400, 25, 4, 0.01);
 figure;
 imshow(imoverlap);
 

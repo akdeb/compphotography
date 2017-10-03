@@ -1,6 +1,6 @@
 % uses seam finding to find the minimum boundary cut
 function imoverlap = quilt_cut(image, outsize, patchsize, overlap, tol)
-   % init first random sample and other constants
+   %% init first random sample and other constants
    dim = size(image);
    rand_y = randi(dim(1)-patchsize);
    rand_x = randi(dim(2)-patchsize);
@@ -8,7 +8,7 @@ function imoverlap = quilt_cut(image, outsize, patchsize, overlap, tol)
    imoverlap(1:patchsize, 1:patchsize, 1:3) = image(rand_y:rand_y+patchsize-1, rand_x:rand_x+patchsize-1,1:3);
    num_imoverlap = floor((outsize-patchsize)/(patchsize-overlap));
    
-   % vertically fill out imoverlap
+   %% vertically fill out imoverlap
    % find template for each new patch
    % fixed mask for every new vertical patch
    M = zeros(patchsize);
@@ -27,15 +27,22 @@ function imoverlap = quilt_cut(image, outsize, patchsize, overlap, tol)
        errpatch = diff(:,:,1).^2 + diff(:,:,1).^2 + diff(:,:,1).^2;
        mask = cut(errpatch);
        % the patch we are going to use
-       existn_patch = existn_patch .* ~mask;
-       new_patch = new_patch .* mask;
+       
+       % this needs to be done in versions of matlab below 2017 i presume
+       mask3d = ones(overlap, patchsize, 3);
+       for i=1:3
+            mask3d(:,:,i) = mask;
+       end
+       
+       existn_patch = existn_patch .* ~mask3d;
+       new_patch = new_patch .* mask3d;
        sample(1:overlap, 1:patchsize, 1:3) = new_patch + existn_patch;
        % change the new sample according to seam found
        imoverlap(start_idx:start_idx+patchsize-1, 1:patchsize, 1:3) = sample;
        start_idx = start_idx+patchsize-overlap;
    end
    
-   % horizontally fill out imoverlap
+   %% horizontally fill out imoverlap
    % find template for each new patch
    % fixed mask for every new vertical patch
    M = zeros(patchsize);
@@ -53,16 +60,24 @@ function imoverlap = quilt_cut(image, outsize, patchsize, overlap, tol)
        diff = existn_patch - new_patch;
        errpatch = diff(:,:,1).^2 + diff(:,:,1).^2 + diff(:,:,1).^2;
        mask = cut(errpatch')';
+       
+       % need in earlier versions of matlab
+       mask3d = ones(patchsize, overlap, 3);
+       for i=1:3
+            mask3d(:,:,i) = mask;
+       end
+       
        % the patch we are going to use
-       existn_patch = existn_patch .* ~mask;
-       new_patch = new_patch .* mask;
+       existn_patch = existn_patch .* ~mask3d;
+       new_patch = new_patch .* mask3d;
+       
        sample(1:patchsize, 1:overlap, 1:3) = new_patch + existn_patch;
        % change the new sample according to seam found
        imoverlap(1:patchsize, start_idx:start_idx+patchsize-1, 1:3) = sample;
        start_idx = start_idx+patchsize-overlap;
    end
    
-   % diagonally fill out imoverlap
+   %% diagonally fill out imoverlap
    % find template for each new patch
    % fixed mask for every new vertical patch
    M = zeros(patchsize);
@@ -70,6 +85,7 @@ function imoverlap = quilt_cut(image, outsize, patchsize, overlap, tol)
    M(1:overlap, 1:patchsize) = ones(overlap, patchsize);
    start_row = patchsize-overlap+1;
    
+   num_imoverlap = 1; %for debugging purposes do this for one image only
    for i = 1:num_imoverlap
        start_col = patchsize-overlap+1;
        for j = 1:num_imoverlap
@@ -86,6 +102,8 @@ function imoverlap = quilt_cut(image, outsize, patchsize, overlap, tol)
            diff = existn_patch1 - new_patch1;
            errpatch = diff(:,:,1).^2 + diff(:,:,1).^2 + diff(:,:,1).^2;
            mask1 = cut(errpatch);
+           disp('mask1');
+           disp(mask1);
            
            % calc for vertical patch
            existn_patch2 = T(1:patchsize, 1:overlap, 1:3);
@@ -93,22 +111,31 @@ function imoverlap = quilt_cut(image, outsize, patchsize, overlap, tol)
            diff = existn_patch2 - new_patch2;
            errpatch = diff(:,:,1).^2 + diff(:,:,1).^2 + diff(:,:,1).^2;
            mask2 = cut(errpatch')';
+           disp('mask2');
+           disp(mask2);
            
-           new_mask1 = zeros(patchsize, patchsize);
-           new_mask1(1:overlap, 1:patchsize) = mask1;
+           new_mask = ones(patchsize, patchsize);
+           new_mask(1:overlap, 1:patchsize) = mask1; 
+           new_mask(1:patchsize, 1:overlap) = new_mask(1:patchsize, 1:overlap) & mask2;
            new_mask2 = zeros(patchsize, patchsize);
            new_mask2(1:patchsize, 1:overlap) = mask2;
            new_mask = new_mask1 & new_mask2;
+%            figure(4);
+%            imshow(new_mask);
            
-           
-           
+           % make 3d version of mask
+           new_mask3d = ones(patchsize, patchsize, 3);
+           for i=1:3
+               new_mask3d(:,:,i) = new_mask;
+           end
+    
            % the patch we are going to use
-           existn_patch = T .* ~new_mask;
-           new_patch = sample .* new_mask;
-           sample(1:overlap, 1:patchsize, 1:3) = new_patch + existn_patch;
+           existn_patch = T .* ~new_mask3d;
+           new_patch = sample .* new_mask3d;
            
            % change the new sample according to seam found
-           imoverlap(start_row:start_row+patchsize-1, start_col:start_col+patchsize-1, 1:3) = 
+           imoverlap(start_row:start_row+patchsize-1, start_col:start_col+patchsize-1, 1:3) = new_patch + existn_patch;
+           start_col = start_col + patchsize-overlap;
        end
        start_row = start_row+patchsize-overlap;
    end

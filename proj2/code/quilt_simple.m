@@ -1,4 +1,11 @@
 % overlapping patches function
+%{
+Function: quilt_simple()
+This function takes the image sample, the output size and patchsize and
+creates another image that looks like the sample but uses an overlapping
+algorithm so edge artifacts do exist
+%}
+
 function imoverlap = quilt_simple(sample, outsize, patchsize, overlap, tol)
    %% init first random sample and other constants
    dim = size(sample);
