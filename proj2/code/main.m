@@ -14,7 +14,7 @@ currently.
 
 %% 1. Randomly Sampled Texture (10 pts)
 % read image into imsample and call quilt_random function
-im2sample = im2single(imread('./../sample/tmt1.jpg'));
+im2sample = im2single(imread('./../sample/feynman.tiff'));
 imrandom = quilt_random(im2sample, 400, 50);
 figure;
 imshow(imrandom);
@@ -30,7 +30,7 @@ imshow(imoverlap);
 %% 3. Seam finding (20 pts)
 % use cut.m to find a cut in the image and combine both images  
 % use this method to combine two overlapping images
-im2sample = im2single(imread('./../sample/tmt1.jpg'));
+im2sample = im2single(imread('./../sample/breads.jpg'));
 imoverlap = quilt_cut(im2sample, 400, 25, 5, 0.01);
 figure;
 imshow(imoverlap);
@@ -50,8 +50,8 @@ end
 imintensity = im2single(newim);
 %}
 
-imintensity = im2single(imread('./../sample/boat.jpg'));
-imtexture = im2single(imread('./../sample/sketch.tiff'));
-imtransfer = texture_transfer(imintensity, imtexture, 99, 4, 0.01);
+imintensity = im2single(imread('./../sample/feynman.tiff'));
+imtexture = im2single(imread('./../sample/paint.jpg'));
+imtransfer = texture_transfer(imintensity, imtexture, 35, 4, 0.01);
 figure;
 imshow(imtransfer);

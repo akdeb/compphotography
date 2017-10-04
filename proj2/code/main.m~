@@ -14,7 +14,7 @@ currently.
 
 %% 1. Randomly Sampled Texture (10 pts)
 % read image into imsample and call quilt_random function
-im2sample = im2single(imread('./../sample/tmt1.jpg'));
+im2sample = im2single(imread('./../sample/feynman.tiff'));
 imrandom = quilt_random(im2sample, 400, 50);
 figure;
 imshow(imrandom);
@@ -50,8 +50,8 @@ end
 imintensity = im2single(newim);
 %}
 
-imintensity = im2single(imread('./../sample/eins'));
-imtexture = im2single(imread('./../sample/feynman.tiff'));
-imtransfer = texture_transfer(imintensity, imtexture, 25, 4, 0.01);
+imintensity = im2single(imread('./../sample/paint.jpg'));
+imtexture = im2single(imread('./../sample/sketch.tiff'));
+imtransfer = texture_transfer(imintensity, imtexture, 99, 4, 0.01);
 figure;
 imshow(imtransfer);
