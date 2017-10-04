@@ -9,10 +9,10 @@ function impatch = choose_sample(patchsize, sample, ssd, tol)
     % calculate dimensions of score/cost matrix and find min pixel
     dim = size(sample);
     cost = ssd((patchsize+1)/2:dim(1)-(patchsize-1)/2, (patchsize+1)/2:dim(2)-(patchsize-1)/2);
-%     minc = min(min(cost));
-%     minc = max(minc, 20);
-%     [y, x] = find(cost<minc*(1+tol));
-    [y, x] = find(cost==min(min(cost))); %(use it if required)-not wrong
+    minc = min(min(cost));
+    minc = max(minc, 1);
+    [y, x] = find(cost<minc*(1+tol));
+    %[y, x] = find(cost==min(min(cost))); %(use it if required)-not wrong
 
     % gives vectors for min pixels
     % select any point from these min points

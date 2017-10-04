@@ -2,6 +2,8 @@
 The following code has been written by Akashdeep Deb (deb2)
 Each part has been modularized and can be run by pressing Ctrl+Enter while 
 in each part. 
+Please use odd values for patchsize as the code does not handle even values
+currently.
 
 1. Randomly Sampled Texture (10 pts)
 2. Overlapping Patches (30 pts)
@@ -35,8 +37,21 @@ imshow(imoverlap);
 
 %% 4. Texture Transfer (30 pts)
 % use quilt_cut.m and the texture_transfer algorithm 
-imintensity = im2single(imread('./../sample/feynman.tiff'));
-imtexture = im2single(imread('./../sample/feynman.tiff'));
-imtransfer = texture_transfer(imintensity, imtexture, 400, 25, 4, 0.01);
+% function imtransfer = texture_transfer(imintensity, imtexture, outsize, patchsize, overlap, tol)
+
+% this is for gray only - comment this is image being loaded is alreay rgb
+%{
+im = imread('./../sample/sketch.tiff');
+dim = size(im);
+newim = ones(dim(1), dim(2), 3);
+for i=1:3
+    newim(:,:,i) = im;
+end
+imintensity = im2single(newim);
+%}
+
+imintensity = im2single(imread('./../sample/boat.jpg'));
+imtexture = im2single(imread('./../sample/sketch.tiff'));
+imtransfer = texture_transfer(imintensity, imtexture, 99, 4, 0.01);
 figure;
 imshow(imtransfer);

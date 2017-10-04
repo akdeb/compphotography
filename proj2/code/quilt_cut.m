@@ -36,8 +36,8 @@ function imoverlap = quilt_cut(image, outsize, patchsize, overlap, tol)
 
        % this needs to be done in versions of matlab below 2017 i presume
        mask3d = ones(overlap, patchsize, 3);
-       for i=1:3
-            mask3d(:,:,i) = mask;
+       for k=1:3
+            mask3d(:,:,k) = mask;
        end
        
        existn_patch = existn_patch .* ~mask3d;
@@ -70,8 +70,8 @@ function imoverlap = quilt_cut(image, outsize, patchsize, overlap, tol)
        
        % need in earlier versions of matlab
        mask3d = ones(patchsize, overlap, 3);
-       for i=1:3
-            mask3d(:,:,i) = mask;
+       for k=1:3
+            mask3d(:,:,k) = mask;
        end
        
        % the patch we are going to use
@@ -124,8 +124,8 @@ function imoverlap = quilt_cut(image, outsize, patchsize, overlap, tol)
            
            % make 3d version of mask
            new_mask3d = ones(patchsize, patchsize, 3);
-           for i=1:3
-               new_mask3d(:,:,i) = new_mask;
+           for k=1:3
+               new_mask3d(:,:,k) = new_mask;
            end
     
            % the patch we are going to use
