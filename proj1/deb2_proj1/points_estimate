@@ -1,0 +1,28 @@
+Project page at: http://deb2.web.engr.illinois.edu/cs445/proj1/
+Part1 - check hybridImage.m for my code
+Part2 - all is my code
+
+************************************************************
+3 FREE DAYS USED (ADDED COURSE LATE on Sep 11, 2017)
+Would greatly appreciate it if ONE FREE DAY could be excused 
+************************************************************
+
+I think I deserve 105 points on this assignment. 
+
+The following is a breakdown:
+
+1. 45 points for implementation to create hybrid images from two aligned input images. 
+
+-completed for 3 pairs of images with 2 good and 1 failure case)
+
+2. 25 points for illustration and additional results: 15 points for FFT images; 10 points for including at least two examples beyond the first (including at least one failure).
+
+-completed for a pair of images and hybrid FFTs for all images with one failure.
+
+3. 10 points for quality of results (e.g., 0=poor 5=average 10=great 15=amazing)
+
+-good quality outputs -image size can be opened in new tab (15 amazing)
+
+4. 20 points for two image enhancement tasks (10 pts each), including explanation and display of results.
+
+-completed both image enhancement tasks - contrast and color enhancement
